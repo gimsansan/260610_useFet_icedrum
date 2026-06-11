@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import FridgeScreen from './screens/FridgeScreen';
+// import FridgeScreen from './screens/FridgeScreenLeakDemo'; // ★ 언마운트 setState 실험 시 위 줄 주석 + 이 줄 사용
 import DrumScreen from './screens/DrumScreen';
 
 // ============================================================
