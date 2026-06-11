@@ -9,8 +9,8 @@ import DrumScreen from './screens/DrumScreen';
 //
 //   ✅ 1단계 완료 — FridgeScreen fetch 로직 이해
 //   ✅ 2단계 완료 — FridgeScreen.js ↔ hooks/useFetch.js 비교
-//   👉 3단계 (현재) — FridgeScreen useFetch 사용
-//   ⬜ 4단계 — DrumScreen.js 주석 해제
+//   ✅ 3단계 완료 — FridgeScreen useFetch 사용
+//   ✅ 4단계 (현재) — DrumScreen useFetch 재사용
 // ============================================================
 
 export default function App() {
@@ -20,7 +20,7 @@ export default function App() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.stageBanner}>
         <Text style={styles.stageText}>
-          3단계: FridgeScreen — useFetch 훅 사용
+          4단계: DrumScreen — useFetch 훅 재사용
         </Text>
       </View>
       <View style={styles.tabBar}>
