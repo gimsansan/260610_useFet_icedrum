@@ -7,11 +7,10 @@ import DrumScreen from './screens/DrumScreen';
 // ============================================================
 // useFetch 커스텀 훅 학습 앱
 //
-// 학습 순서:
-//   1단계 → screens/FridgeScreen.js (현재 활성) fetch 로직 이해
-//   2단계 → hooks/useFetch.js 와 1단계 코드 1:1 비교
-//   3단계 → FridgeScreen 1단계 주석 처리 + 3단계 주석 해제
-//   4단계 → screens/DrumScreen.js 주석 해제
+//   ✅ 1단계 완료 — FridgeScreen fetch 로직 이해
+//   👉 2단계 (현재) — FridgeScreen.js ↔ hooks/useFetch.js 비교
+//   ⬜ 3단계 — FridgeScreen 주석 토글 + useFetch import
+//   ⬜ 4단계 — DrumScreen.js 주석 해제
 // ============================================================
 
 export default function App() {
@@ -19,6 +18,11 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safe}>
+      <View style={styles.stageBanner}>
+        <Text style={styles.stageText}>
+          2단계: FridgeScreen.js ↔ useFetch.js 줄번호 주석으로 비교
+        </Text>
+      </View>
       <View style={styles.tabBar}>
         <Pressable
           style={[styles.tab, screen === 'fridge' && styles.tabActive]}
@@ -42,6 +46,14 @@ export default function App() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#fff' },
+  stageBanner: {
+    backgroundColor: '#fff3e0',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ffe0b2',
+  },
+  stageText: { fontSize: 13, color: '#e65100', fontWeight: '600' },
   tabBar: {
     flexDirection: 'row',
     borderBottomWidth: 1,

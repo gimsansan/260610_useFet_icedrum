@@ -7,54 +7,52 @@ import { isMockUrl, mockFetch } from '../utils/mockApi';
 const FRIDGE_URL = 'https://api.example.com/fridge-items';
 
 // ============================================================
-// ★ 1단계: fetch 로직이 컴포넌트 안에 그대로 있음 (먼저 이걸 이해)
-//    - useState 3개로 data / loading / error 관리
-//    - useEffect 안에서 async fetch
-//    - cancelled 로 언마운트 후 setState 방지
+// ★ 2단계 (현재): hooks/useFetch.js 와 아래 코드를 나란히 비교
+//    - 1단계 fetch 로직은 그대로 (앱 동작 동일)
+//    - // ↔ useFetch.js:줄번호 주석으로 1:1 대응 확인
+//    - 비교 끝나면 3단계로 FridgeScreen 주석 토글
 // ============================================================
 function FridgeScreen() {
-  const [items, setItems] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [items, setItems] = useState(null);       // ↔ useFetch.js:15 data
+  const [loading, setLoading] = useState(true);   // ↔ useFetch.js:16
+  const [error, setError] = useState(null);       // ↔ useFetch.js:17
 
-  useEffect(() => {
-    let cancelled = false;// 나갔냐?
+  useEffect(() => {                               // ↔ useFetch.js:19
+    let cancelled = false;                        // ↔ useFetch.js:20
 
-    async function fetchItems() {
+    async function fetchItems() {                 // ↔ useFetch.js:22 doFetch
       try {
-        setLoading(true);
-        // 연습용 → mockFetch (서버 없이도 동작)
-        // 실제 → fetch (진짜 서버 호출)
-        // 같은 fetch 흐름을 유지하면서, 학습할 때와 실무 URL 쓸 때를 나눈 겁니다.
-        const res = isMockUrl(FRIDGE_URL)
+        setLoading(true);                         // ↔ useFetch.js:24
+        const res = isMockUrl(FRIDGE_URL)         // ↔ useFetch.js:25 (url 인자)
           ? await mockFetch(FRIDGE_URL)
           : await fetch(FRIDGE_URL);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-  
-        if (!cancelled) {
-          setItems(data);
-          setError(null);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`); // ↔ useFetch.js:27
+        const data = await res.json();            // ↔ useFetch.js:28 json
+
+        if (!cancelled) {                         // ↔ useFetch.js:29
+          setItems(data);                         // ↔ useFetch.js:30 setData
+          setError(null);                         // ↔ useFetch.js:31
         }
       } catch (err) {
-        if (!cancelled) setError(err.message);
+        if (!cancelled) setError(err.message);   // ↔ useFetch.js:34
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setLoading(false);       // ↔ useFetch.js:36
       }
     }
 
-    fetchItems();
+    fetchItems();                                 // ↔ useFetch.js:40 doFetch()
     return () => {
-      cancelled = true;
+      cancelled = true;                           // ↔ useFetch.js:42
     };
-  }, []);
+  }, []);                                         // ↔ useFetch.js:44 [url] — FridgeScreen은 URL 고정
 
+  // ↓ 아래 UI는 3단계 useFetch 쓸 때도 동일 (훅만 바꿈)
   if (loading) return <Text style={styles.message}>로딩 중...</Text>;
   if (error) return <Text style={styles.error}>에러: {error}</Text>;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>냉장고 (1단계)</Text>
+      <Text style={styles.title}>냉장고 (2단계 — useFetch와 비교)</Text>
       <FridgeItemList items={items} />
     </View>
   );
