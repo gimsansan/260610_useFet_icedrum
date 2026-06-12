@@ -1,13 +1,12 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 
-export default function DrumSoundList({ sounds }) {
-  if (!sounds || sounds.length === 0) {
-    return <Text style={styles.empty}>사운드가 없어요</Text>;
-  }
-
+// ============================================================
+// ★ 7단계: refreshing + onRefresh prop 추가 → RefreshControl 연결
+// ============================================================
+export default function DrumSoundList({ sounds, refreshing, onRefresh }) {
   return (
     <FlatList
-      data={sounds}
+      data={sounds ?? []}
       keyExtractor={(item) => String(item.id)}
       renderItem={({ item }) => (
         <View style={styles.row}>
@@ -15,6 +14,10 @@ export default function DrumSoundList({ sounds }) {
           <Text style={styles.file}>{item.file}</Text>
         </View>
       )}
+      ListEmptyComponent={<Text style={styles.empty}>사운드가 없어요</Text>}
+      refreshControl={
+        <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+      }
     />
   );
 }

@@ -1,13 +1,12 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 
-export default function FridgeItemList({ items }) {
-  if (!items || items.length === 0) {
-    return <Text style={styles.empty}>냉장고가 비어 있어요</Text>;
-  }
-
+// ============================================================
+// ★ 7단계: refreshing + onRefresh prop 추가 → RefreshControl 연결
+// ============================================================
+export default function FridgeItemList({ items, refreshing, onRefresh }) {
   return (
     <FlatList
-      data={items}
+      data={items ?? []}
       keyExtractor={(item) => String(item.id)}
       renderItem={({ item }) => (
         <View style={styles.row}>
@@ -15,6 +14,10 @@ export default function FridgeItemList({ items }) {
           <Text style={styles.expiry}>유통기한: {item.expiry}</Text>
         </View>
       )}
+      ListEmptyComponent={<Text style={styles.empty}>냉장고가 비어 있어요</Text>}
+      refreshControl={
+        <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+      }
     />
   );
 }

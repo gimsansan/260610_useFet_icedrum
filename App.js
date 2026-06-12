@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-//import FridgeScreen from './screens/FridgeScreen';
- import FridgeScreen from './screens/FridgeScreenLeakDemo'; // ★ 언마운트 setState 실험 시 위 줄 주석 + 이 줄 사용
+import FridgeScreen from './screens/FridgeScreen';
+// import FridgeScreen from './screens/FridgeScreenLeakDemo'; // ★ 5단계 실험 시
+// import FridgeScreen from './screens/FridgeScreenRetryDemo'; // ★ 6stage setError(null) 실험 시
 import DrumScreen from './screens/DrumScreen';
-//import FridgeScreenSafeDemo from './screens/FridgeScreenSafeDemo';
-import FridgeScreenRetryDemo from './screens/FridgeScreenRetryDemo';
 // ============================================================
 // useFetch 커스텀 훅 학습 앱
 //
-//   ✅ 1단계 완료 — FridgeScreen fetch 로직 이해
-//   ✅ 2단계 완료 — FridgeScreen.js ↔ hooks/useFetch.js 비교
-//   ✅ 3단계 완료 — FridgeScreen useFetch 사용
-//   ✅ 4단계 (현재) — DrumScreen useFetch 재사용
+//   ✅ 1~4단계 완료
+//   ✅ 6단계 (현재) — useFetch refetch + 화면 버튼
 // ============================================================
 
 export default function App() {
@@ -22,7 +19,7 @@ export default function App() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.stageBanner}>
         <Text style={styles.stageText}>
-          4단계: DrumScreen — useFetch 훅 재사용
+          6단계: useFetch refetch — 다시 불러오기 버튼
         </Text>
       </View>
       <View style={styles.tabBar}>
@@ -40,7 +37,7 @@ export default function App() {
         </Pressable>
       </View>
 
-      {screen === 'fridge' ? <FridgeScreenRetryDemo /> : <DrumScreen />}
+      {screen === 'fridge' ? <FridgeScreen /> : <DrumScreen />}
       <StatusBar style="auto" />
     </SafeAreaView>
   );
