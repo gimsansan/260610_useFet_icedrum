@@ -9,7 +9,7 @@ import DrumScreen from './screens/DrumScreen';
 // useFetch 커스텀 훅 학습 앱
 //
 //   ✅ 1~4단계 완료
-//   ✅ 6단계 (현재) — useFetch refetch + 화면 버튼
+//   ✅ 8단계 (현재) — FetchScreen으로 반복 UI 추출
 // ============================================================
 
 export default function App() {
@@ -19,7 +19,7 @@ export default function App() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.stageBanner}>
         <Text style={styles.stageText}>
-          6단계: useFetch refetch — 다시 불러오기 버튼
+          8단계: FetchScreen — 반복 UI 추출 (DRY)
         </Text>
       </View>
       <View style={styles.tabBar}>
