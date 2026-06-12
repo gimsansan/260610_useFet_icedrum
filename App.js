@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import FridgeScreen from './screens/FridgeScreen';
 // import FridgeScreen from './screens/FridgeScreenLeakDemo'; // ★ 5단계 실험 시
 // import FridgeScreen from './screens/FridgeScreenRetryDemo'; // ★ 6stage setError(null) 실험 시
@@ -9,42 +11,44 @@ import DrumScreen from './screens/DrumScreen';
 // useFetch 커스텀 훅 학습 앱
 //
 //   ✅ 1~4단계 완료
-//   ✅ 8단계 (현재) — FetchScreen으로 반복 UI 추출
+//   ✅ 8단계 — FetchScreen으로 반복 UI 추출
+//   ✅ 9단계 (현재) — React Navigation bottom-tabs
 // ============================================================
 
+const Tab = createBottomTabNavigator();
+
 export default function App() {
-  const [screen, setScreen] = useState('fridge');
-
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.stageBanner}>
-        <Text style={styles.stageText}>
-          8단계: FetchScreen — 반복 UI 추출 (DRY)
-        </Text>
+    <SafeAreaProvider>
+      <View style={styles.root}>
+        <View style={styles.stageBanner}>
+          <Text style={styles.stageText}>
+            9단계: React Navigation bottom-tabs
+          </Text>
+        </View>
+        <View style={styles.nav}>
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: '#1976d2',
+                tabBarInactiveTintColor: '#666',
+              }}
+            >
+              <Tab.Screen name="냉장고" component={FridgeScreen} />
+              <Tab.Screen name="드럼" component={DrumScreen} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </View>
+        <StatusBar style="auto" />
       </View>
-      <View style={styles.tabBar}>
-        <Pressable
-          style={[styles.tab, screen === 'fridge' && styles.tabActive]}
-          onPress={() => setScreen('fridge')}
-        >
-          <Text style={styles.tabText}>냉장고</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.tab, screen === 'drum' && styles.tabActive]}
-          onPress={() => setScreen('drum')}
-        >
-          <Text style={styles.tabText}>드럼</Text>
-        </Pressable>
-      </View>
-
-      {screen === 'fridge' ? <FridgeScreen /> : <DrumScreen />}
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#fff' },
+  root: { flex: 1, backgroundColor: '#fff' },
+  nav: { flex: 1 },
   stageBanner: {
     backgroundColor: '#fff3e0',
     paddingVertical: 8,
@@ -53,21 +57,4 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ffe0b2',
   },
   stageText: { fontSize: 13, color: '#e65100', fontWeight: '600' },
-  tabBar: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  tabActive: {
-    backgroundColor: '#e3f2fd',
-    borderBottomWidth: 2,
-    borderBottomColor: '#1976d2',
-  },
-  tabText: { fontSize: 15, fontWeight: '600' },
 });
