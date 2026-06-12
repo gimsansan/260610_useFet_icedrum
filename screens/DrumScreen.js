@@ -1,16 +1,18 @@
 import DrumSoundList from '../components/DrumSoundList';
-import FetchScreen from './FetchScreen';
+import QueryFetchScreen from './QueryFetchScreen';
 
 const DRUM_URL = 'https://api.example.com/drum-sounds';
 
 // ============================================================
-// ★ 8단계 (현재): FetchScreen으로 반복 UI 추출
+// ★ 10단계 (현재): useQuery — staleTime 캐시, dedupe, 백그라운드 refetch
 // ============================================================
 function DrumScreen() {
   return (
-    <FetchScreen
-      title="드럼 (8단계 — 공통 FetchScreen)"
+    <QueryFetchScreen
+      title="드럼 (10단계 — useQuery)"
       url={DRUM_URL}
+      queryKey={['drum-sounds']}
+      staleTime={30_000}
       renderList={({ data, loading, refetch }) => (
         <DrumSoundList sounds={data} refreshing={loading} onRefresh={refetch} />
       )}

@@ -27,8 +27,29 @@ function randomPick(pool) {
 
 const DELAY_MS = 1000;
 
+const fetchStats = { fridge: 0, drum: 0, total: 0 };
+
+function statsKey(url) {
+  if (url.includes('fridge-items')) return 'fridge';
+  if (url.includes('drum-sounds')) return 'drum';
+  return 'other';
+}
+
+export function getMockFetchStats() {
+  return { ...fetchStats };
+}
+
 export async function mockFetch(url) {
   await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
+
+  const key = statsKey(url);
+  if (key !== 'other') {
+    fetchStats[key] += 1;
+    fetchStats.total += 1;
+    console.log(
+      `[mockFetch] ${key} #${fetchStats[key]} (total ${fetchStats.total})`
+    );
+  }
 
   let data;
   if (url === "https://api.example.com/fridge-items") {

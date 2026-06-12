@@ -1,6 +1,6 @@
 // hooks/useFetch.js
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { isMockUrl, mockFetch } from '../utils/mockApi';
+import { fetchJson } from '../utils/fetchJson';
 
 // ============================================================
 // ★ 6단계 (현재): doFetch 분리 + refetch 반환
@@ -17,9 +17,7 @@ function useFetch(url) {
     cancelledRef.current = false;
     try {
       setLoading(true);
-      const res = isMockUrl(url) ? await mockFetch(url) : await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
+      const json = await fetchJson(url);
       if (!cancelledRef.current) {
         setData(json);
         setError(null);

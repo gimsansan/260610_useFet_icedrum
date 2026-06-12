@@ -1,12 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import useFetch from '../hooks/useFetch';
+import FetchCompareStats from '../components/FetchCompareStats';
 
 // ============================================================
 // ★ 8단계: 반복 UI 추출
-//    - loading / error / title / refetch 공통 처리
-//    - 화면별 차이는 renderList에서만 주입
+// ★ 10단계: useFetch 경로 — FetchCompareStats로 useQuery와 비교
 // ============================================================
-export default function FetchScreen({ title, url, renderList }) {
+export default function FetchScreen({ title, url, renderList, compareNote }) {
   const { data, loading, error, refetch } = useFetch(url);
 
   if (loading && !data) return <Text style={styles.message}>로딩 중...</Text>;
@@ -24,6 +24,13 @@ export default function FetchScreen({ title, url, renderList }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
+      <FetchCompareStats
+        engine="useFetch (직접 구현)"
+        note={
+          compareNote ??
+          '탭 전환 시 언마운트 → 다시 마운트 → 매번 mockFetch 호출 (캐시 없음)'
+        }
+      />
       {renderList({ data, loading, error, refetch })}
     </View>
   );

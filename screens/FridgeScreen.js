@@ -56,12 +56,12 @@ const FRIDGE_URL = 'https://api.example.com/fridge-items';
 // }
 
 // ============================================================
-// ★ 8단계 (현재): FetchScreen으로 반복 UI 추출
+// ★ 10단계 (현재): useFetch — 탭 왕복마다 재요청 (캐시 없음)
 // ============================================================
 function FridgeScreen() {
   return (
     <FetchScreen
-      title="냉장고 (8단계 — 공통 FetchScreen)"
+      title="냉장고 (10단계 — useFetch)"
       url={FRIDGE_URL}
       renderList={({ data, loading, refetch }) => (
         <FridgeItemList items={data} refreshing={loading} onRefresh={refetch} />
