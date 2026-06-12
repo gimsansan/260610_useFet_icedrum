@@ -27,6 +27,7 @@ export async function mockFetch(url) {
 
   const data = MOCK_DATA[url];
 
+  // data가 undefined(=MOCK_DATA에 해당 url 없음)면 404 에러 반환
   if (!data) {
     return { ok: false, status: 404 };
   }
